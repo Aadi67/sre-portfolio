@@ -1,0 +1,17 @@
+@import "tailwindcss";
+
+/* Tremor specific variables */
+@theme {
+  --color-background: #111217;
+  --color-panel: #181b1f;
+}
+
+/* Force dark mode to act as the default */
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  background-color: var(--color-background);
+  color: #d1d5db; /* gray-300 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
