@@ -1,13 +1,561 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>sre-portfolio</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#111410">
+  <meta name="description" content="Aditya Khanpasole is a senior cloud infrastructure and platform engineer specializing in multi-cloud, HPC, Kubernetes, and site reliability engineering.">
+  <title>Aditya Khanpasole — Cloud Infrastructure & SRE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+      --ink: #111410;
+      --surface: #191d18;
+      --surface-raised: #222720;
+      --paper: #f2f0e8;
+      --muted: #9a9e94;
+      --line: #343931;
+      --acid: #d2fb58;
+      --orange: #ff815e;
+      --mono: "DM Mono", monospace;
+      --sans: "Space Grotesk", sans-serif;
+      --page-pad: clamp(20px, 6vw, 96px);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body { margin: 0; background: var(--ink); color: var(--paper); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    ::selection { background: var(--acid); color: var(--ink); }
+    .mono, .eyebrow, .nav-link, .hero-index, .telemetry-label, .terminal-bar, .section-number, .project-kicker, .tag, .footer-note { font-family: var(--mono); }
+    .eyebrow { margin: 0; color: var(--acid); font-size: 11px; letter-spacing: 0; text-transform: uppercase; }
+
+    .topbar { position: absolute; z-index: 5; top: 0; right: 0; left: 0; display: flex; align-items: center; justify-content: space-between; min-height: 76px; padding: 0 var(--page-pad); border-bottom: 1px solid #ffffff27; }
+    .wordmark { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 700; letter-spacing: 0; }
+    .wordmark-mark { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid var(--acid); color: var(--acid); font: 12px var(--mono); }
+    .nav-links { display: flex; align-items: center; gap: 34px; }
+    .nav-link { color: #e3e4dc; font-size: 11px; text-transform: uppercase; transition: color .2s; }
+    .nav-link:hover, .nav-link:focus-visible { color: var(--acid); }
+    .nav-contact { padding: 11px 15px; border: 1px solid #ffffff6b; }
+    .menu-toggle { display: none; border: 0; background: none; padding: 10px 0 10px 10px; font: 11px var(--mono); text-transform: uppercase; }
+
+    .hero { position: relative; display: flex; min-height: 740px; min-height: min(850px, 94svh); align-items: center; overflow: hidden; background: #303a36; }
+    .hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 52%; }
+    .hero-shade { position: absolute; inset: 0; background: rgb(13 17 14 / 66%); }
+    .hero-content { position: relative; z-index: 1; width: min(930px, 100%); padding: 112px var(--page-pad) 54px; animation: arrive .75s both; }
+    .demo-label { display: inline-flex; align-items: center; gap: 9px; margin-bottom: 25px; padding: 8px 10px; border: 1px solid #ffffff5c; color: #f0f0e8; font: 10px var(--mono); text-transform: uppercase; }
+    .demo-dot, .pulse-dot { width: 7px; height: 7px; flex: 0 0 7px; border-radius: 50%; background: var(--acid); box-shadow: 0 0 12px #d2fb586e; }
+    h1 { max-width: 850px; margin: 0; font-size: clamp(58px, 9vw, 122px); font-weight: 500; line-height: .94; letter-spacing: 0; }
+    h1 span { color: var(--acid); }
+    .hero-copy { max-width: 485px; margin: 25px 0 0; color: #e0e1d9; font-size: 17px; line-height: 1.65; }
+    .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 31px; }
+    .button-primary, .button-quiet { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 12px; padding: 0 17px; font: 11px var(--mono); text-transform: uppercase; transition: background .2s, color .2s, border-color .2s; }
+    .button-primary { border: 1px solid var(--acid); background: var(--acid); color: var(--ink); }
+    .button-primary:hover { border-color: var(--paper); background: var(--paper); }
+    .button-quiet { border: 1px solid #ffffff77; background: transparent; }
+    .button-quiet:hover { border-color: var(--acid); color: var(--acid); }
+    .hero-index { position: absolute; right: var(--page-pad); bottom: 38px; color: #e9e9e2; font-size: 10px; text-transform: uppercase; }
+    .hero-index span { color: var(--acid); }
+    .hero-scroll { position: absolute; bottom: 35px; left: var(--page-pad); display: flex; align-items: center; gap: 11px; color: #e9e9e2; font: 10px var(--mono); text-transform: uppercase; }
+    .hero-scroll::before { width: 28px; height: 1px; background: var(--acid); content: ""; }
+
+    .telemetry { display: grid; grid-template-columns: 1.3fr repeat(3, 1fr); border-bottom: 1px solid var(--line); }
+    .telemetry-item { min-height: 118px; display: flex; flex-direction: column; justify-content: center; gap: 10px; padding: 20px var(--page-pad); border-right: 1px solid var(--line); }
+    .telemetry-item:last-child { border-right: 0; }
+    .telemetry-label { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 10px; text-transform: uppercase; }
+    .telemetry-value { font-size: 20px; font-weight: 500; }
+    .telemetry-value small { color: var(--acid); font: 11px var(--mono); }
+
+    .section { padding: 112px var(--page-pad); }
+    .section-heading { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 28px; margin-bottom: 46px; }
+    .section-title { margin: 12px 0 0; font-size: clamp(39px, 5.5vw, 70px); font-weight: 500; line-height: 1; letter-spacing: 0; }
+    .section-intro { max-width: 400px; justify-self: end; margin: 0; color: var(--muted); font-size: 15px; line-height: 1.7; }
+
+    .work-section { background: var(--paper); color: var(--ink); }
+    .work-section .eyebrow { color: #697f22; }
+    .work-section .section-intro { color: #62665c; }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+    .filter-button { min-height: 37px; padding: 0 13px; border: 1px solid #c6c8be; background: transparent; color: #55594f; font: 10px var(--mono); text-transform: uppercase; cursor: pointer; }
+    .filter-button[aria-pressed="true"], .filter-button:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .project { display: flex; min-height: 350px; flex-direction: column; padding: 25px; border: 1px solid #c6c8be; transition: transform .25s, box-shadow .25s; }
+    .project:hover { transform: translateY(-4px); box-shadow: 5px 5px 0 var(--acid); }
+    .project[hidden] { display: none; }
+    .project-top { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    .project-kicker { color: #73776b; font-size: 10px; text-transform: uppercase; }
+    .project-symbol { color: #788e2c; font: 19px var(--mono); }
+    .project h3 { margin: 32px 0 11px; font-size: 25px; font-weight: 500; line-height: 1.15; }
+    .project p { margin: 0; color: #55594f; font-size: 13px; line-height: 1.7; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 26px; }
+    .tag { padding: 6px 8px; border: 1px solid #c6c8be; color: #55594f; font-size: 9px; }
+    .project-impact { display: flex; align-items: baseline; gap: 8px; margin-top: 22px; padding-top: 15px; border-top: 1px solid #c6c8be; font: 11px var(--mono); }
+    .project-impact strong { color: #637c18; font-size: 17px; font-weight: 500; }
+
+    .experience-section { background: #151914; }
+    .experience-list { margin-top: 10px; }
+    .experience-item { display: grid; grid-template-columns: minmax(175px, .55fr) 1.45fr; gap: 36px; padding: 27px 0; border-top: 1px solid var(--line); }
+    .experience-date { margin: 0 0 9px; color: var(--acid); font: 10px var(--mono); text-transform: uppercase; }
+    .experience-place { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.6; }
+    .experience-detail h3 { margin: 0 0 12px; font-size: 20px; font-weight: 500; }
+    .experience-detail ul { display: grid; gap: 8px; margin: 0; padding-left: 18px; color: #c3c6bc; font-size: 13px; line-height: 1.65; }
+    .experience-detail li::marker { color: var(--acid); }
+
+    .systems-section { background: var(--surface); }
+    .systems-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+    .systems-copy { max-width: 500px; }
+    .systems-copy > p:last-child { color: var(--muted); font-size: 15px; line-height: 1.8; }
+    .systems-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 25px; margin-top: 31px; }
+    .systems-list span { padding: 13px 0; border-bottom: 1px solid var(--line); font: 11px var(--mono); }
+    .systems-list span::before { margin-right: 9px; color: var(--acid); content: "+"; }
+    .architecture { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 30px; border: 1px solid #42483d; background-color: #151914; background-image: radial-gradient(#ffffff1b .7px, transparent .7px); background-size: 15px 15px; }
+    .architecture::before { position: absolute; top: 50%; left: 50%; width: 1px; height: 30%; background: var(--acid); content: ""; opacity: .7; }
+    .arch-node { position: relative; z-index: 1; display: flex; min-height: 82px; flex-direction: column; justify-content: center; gap: 8px; padding: 14px; border: 1px solid #51564a; background: var(--surface); }
+    .arch-node strong { font-size: 13px; font-weight: 500; }
+    .arch-node span { color: var(--muted); font: 9px var(--mono); }
+    .arch-node.core { border-color: var(--acid); }
+    .arch-node.core strong { color: var(--acid); }
+    .expertise-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 28px; margin-top: 70px; }
+    .expertise-group { padding: 18px 0 21px; border-top: 1px solid var(--line); }
+    .expertise-group h3 { margin: 0 0 9px; color: var(--acid); font: 10px var(--mono); text-transform: uppercase; }
+    .expertise-group p { margin: 0; color: #c3c6bc; font-size: 13px; line-height: 1.75; }
+
+    .ai-lab-section { background: #20251f; }
+    .ai-projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px; }
+    .ai-project { padding: 18px 0 20px; border-top: 1px solid #485044; }
+    .ai-project-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; color: var(--acid); font: 9px var(--mono); text-transform: uppercase; }
+    .ai-project h3 { margin: 24px 0 11px; font-size: 21px; font-weight: 500; line-height: 1.2; }
+    .ai-project p { margin: 0; color: #b9beb3; font-size: 13px; line-height: 1.75; }
+    .ai-project .tag { display: inline-block; margin-top: 17px; border-color: #485044; color: #c8cdc1; }
+    .copilot-demo { display: grid; grid-template-columns: .85fr 1.15fr; gap: 35px; margin-top: 65px; padding: clamp(20px, 4vw, 38px); border: 1px solid #485044; background: #141813; }
+    .copilot-heading { margin: 9px 0 12px; font-size: clamp(25px, 3vw, 38px); font-weight: 500; line-height: 1.1; }
+    .copilot-copy > p:last-child { color: #b9beb3; font-size: 13px; line-height: 1.75; }
+    .copilot-form { display: grid; gap: 10px; align-content: start; }
+    .copilot-form label { margin-top: 4px; color: #c8cdc1; font: 10px var(--mono); text-transform: uppercase; }
+    .copilot-form input, .copilot-form select { width: 100%; min-height: 43px; padding: 0 12px; border: 1px solid #485044; border-radius: 0; background: #1e231d; color: var(--paper); font: 12px var(--mono); }
+    .copilot-form input:focus, .copilot-form select:focus { outline: 2px solid var(--acid); outline-offset: 2px; }
+    .copilot-submit { min-height: 43px; margin-top: 6px; border: 1px solid var(--acid); background: var(--acid); color: var(--ink); font: 10px var(--mono); text-transform: uppercase; cursor: pointer; }
+    .copilot-submit:hover { border-color: var(--paper); background: var(--paper); }
+    .copilot-output { grid-column: 2; padding: 18px; border: 1px solid #343a31; background: #0b0e0b; }
+    .copilot-output-label { margin: 0 0 7px; color: var(--acid); font: 9px var(--mono); text-transform: uppercase; }
+    .copilot-summary { margin: 0 0 10px; color: var(--paper); font-size: 14px; font-weight: 500; }
+    .copilot-steps { display: grid; gap: 7px; margin: 0; padding-left: 20px; color: #c3c6bc; font-size: 12px; line-height: 1.65; }
+    .copilot-steps li::marker { color: var(--acid); }
+    .copilot-disclosure { grid-column: 1 / -1; margin: -18px 0 0; color: var(--muted); font: 10px/1.6 var(--mono); }
+
+    .terminal-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start; }
+    .terminal-copy > p:last-child { max-width: 350px; color: var(--muted); font-size: 14px; line-height: 1.8; }
+    .terminal-window { min-width: 0; border: 1px solid #4b5147; background: #0b0e0b; box-shadow: 9px 9px 0 #282d25; }
+    .terminal-bar { display: flex; min-height: 43px; align-items: center; justify-content: space-between; padding: 0 15px; border-bottom: 1px solid #343a31; color: #aeb2a8; font-size: 10px; }
+    .terminal-lights { display: flex; gap: 5px; }
+    .terminal-lights i { width: 7px; height: 7px; border-radius: 50%; background: #6b7164; }
+    .terminal-lights i:first-child { background: var(--orange); }
+    .terminal-body { min-height: 233px; padding: 20px; color: #d6d8ce; font: 12px/1.9 var(--mono); }
+    .terminal-output { min-height: 145px; white-space: pre-wrap; }
+    .terminal-output .green { color: var(--acid); }
+    .terminal-output .orange { color: var(--orange); }
+    .terminal-prompt { display: flex; align-items: center; gap: 8px; }
+    .terminal-prompt label { color: var(--acid); }
+    .terminal-prompt input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--paper); font: 12px var(--mono); }
+    .terminal-hint { padding-top: 7px; color: #858a7e; font-size: 10px; }
+
+    .contact-section { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 35px; border-top: 1px solid var(--line); background: var(--acid); color: var(--ink); }
+    .contact-section .eyebrow { color: #53671b; }
+    .contact-section .section-title { max-width: 670px; }
+    .contact-section .button-primary { margin-bottom: 5px; border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .contact-section .button-primary:hover { border-color: var(--paper); background: var(--paper); color: var(--ink); }
+    .contact-note { max-width: 250px; margin: 13px 0 0; color: #53671b; font: 10px/1.6 var(--mono); }
+    .footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; padding: 22px var(--page-pad); color: var(--muted); font: 10px var(--mono); }
+    .footer a:hover { color: var(--acid); }
+    .reveal { opacity: 0; transform: translateY(17px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    @keyframes arrive { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+    @media (max-width: 800px) {
+      .nav-links { gap: 20px; }
+      .nav-link { font-size: 10px; }
+      .telemetry { grid-template-columns: repeat(2, 1fr); }
+      .telemetry-item:nth-child(2) { border-right: 0; }
+      .telemetry-item:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .projects { grid-template-columns: 1fr 1fr; }
+      .project:last-child { grid-column: 1 / -1; min-height: 290px; }
+      .systems-grid { gap: 32px; }
+      .expertise-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .experience-item { grid-template-columns: 1fr 2fr; gap: 22px; }
+      .ai-projects { grid-template-columns: 1fr 1fr; }
+      .copilot-demo { grid-template-columns: 1fr 1fr; gap: 25px; }
+      .terminal-section { grid-template-columns: .7fr 1.3fr; gap: 32px; }
+    }
+    @media (max-width: 600px) {
+      .topbar { min-height: 66px; }
+      .wordmark { font-size: 11px; }
+      .menu-toggle { display: block; }
+      .nav-links { position: absolute; top: 65px; right: 0; left: 0; display: none; align-items: stretch; gap: 0; padding: 8px var(--page-pad) 17px; border-bottom: 1px solid #ffffff38; background: var(--ink); }
+      .nav-links.is-open { display: flex; flex-direction: column; }
+      .nav-link { padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 11px; }
+      .nav-contact { padding: 14px 0; border-right: 0; border-left: 0; border-top: 0; }
+      .hero { min-height: 720px; min-height: 88svh; align-items: center; }
+      .hero-photo { object-position: 60% center; }
+      .hero-content { padding-top: 116px; padding-bottom: 86px; }
+      h1 { font-size: clamp(55px, 14vw, 78px); }
+      .hero-copy { max-width: 360px; font-size: 15px; }
+      .hero-index { display: none; }
+      .hero-scroll { bottom: 24px; }
+      .section { padding-top: 78px; padding-bottom: 78px; }
+      .section-heading { grid-template-columns: 1fr; gap: 18px; margin-bottom: 32px; }
+      .section-intro { justify-self: start; }
+      .telemetry-item { min-height: 101px; padding: 16px 20px; }
+      .telemetry-value { font-size: 17px; }
+      .projects { grid-template-columns: 1fr; }
+      .project, .project:last-child { grid-column: auto; min-height: 310px; }
+      .systems-grid, .terminal-section { grid-template-columns: 1fr; gap: 35px; }
+      .expertise-grid { grid-template-columns: 1fr; margin-top: 48px; }
+      .experience-item { grid-template-columns: 1fr; gap: 13px; }
+      .ai-projects, .copilot-demo { grid-template-columns: 1fr; }
+      .copilot-output { grid-column: 1; }
+      .copilot-disclosure { grid-column: 1; margin-top: 0; }
+      .architecture { padding: 18px; }
+      .contact-section { grid-template-columns: 1fr; align-items: start; gap: 23px; }
+      .contact-section .button-primary { justify-self: start; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="wordmark" href="#home" aria-label="Aditya Khanpasole, home"><span class="wordmark-mark">AK</span><span>ADITYA KHANPASOLE <span style="color:var(--muted);font-weight:400">/ PLATFORM</span></span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-navigation">Menu +</button>
+    <nav class="nav-links" id="site-navigation" aria-label="Main navigation">
+      <a class="nav-link" href="#work">Selected work</a>
+      <a class="nav-link" href="#experience">Experience</a>
+      <a class="nav-link" href="#systems">Toolkit</a>
+      <a class="nav-link" href="#ai-labs">AI lab</a>
+      <a class="nav-link nav-contact" href="#contact">Get in touch <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home" aria-labelledby="hero-title">
+      <img class="hero-photo" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2400&q=85" alt="Rows of illuminated servers in a data center" fetchpriority="high">
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="hero-content">
+        <div class="demo-label"><span class="demo-dot"></span> 8+ years · Cloud infrastructure &amp; platform engineering</div>
+        <p class="eyebrow">Senior cloud infrastructure / Site reliability engineer</p>
+        <h1 id="hero-title">Cloud-scale<br><span>reliability.</span></h1>
+        <p class="hero-copy">I architect and automate resilient AWS, Azure, and GCP platforms, from high-throughput compute to Kubernetes and multi-region recovery.</p>
+        <div class="hero-actions">
+          <a class="button-primary" href="#work">Explore selected work <span aria-hidden="true">↓</span></a>
+          <a class="button-quiet" href="mailto:hello@example.com">Start a conversation <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <a class="hero-scroll" href="#status">Scroll to inspect</a>
+      <span class="hero-index">Pune, India <span>·</span> AWS / Azure / GCP</span>
+    </section>
+
+    <section class="telemetry" id="status" aria-label="Engineering focus">
+      <div class="telemetry-item"><span class="telemetry-label"><span class="pulse-dot"></span> Current UTC time</span><span class="telemetry-value" id="local-time">--:--:-- <small>UTC</small></span></div>
+      <div class="telemetry-item"><span class="telemetry-label">System availability</span><span class="telemetry-value">99.99% <small>maintained</small></span></div>
+      <div class="telemetry-item"><span class="telemetry-label">Cloud migrations</span><span class="telemetry-value">15+ <small>apps</small></span></div>
+      <div class="telemetry-item"><span class="telemetry-label">Toil reduction</span><span class="telemetry-value">40% <small>automated</small></span></div>
+    </section>
+
+    <section class="section work-section" id="work" aria-labelledby="work-heading">
+      <div class="section-heading reveal">
+        <div><p class="eyebrow">01 / Selected engineering work</p><h2 class="section-title" id="work-heading">Platforms built<br>for real conditions.</h2></div>
+        <p class="section-intro">Cloud-native compute, declarative delivery, and recovery engineering for distributed systems where availability and predictable operations matter.</p>
+      </div>
+      <div class="filters reveal" role="group" aria-label="Filter projects">
+        <button class="filter-button" type="button" data-filter="all" aria-pressed="true">All work</button>
+        <button class="filter-button" type="button" data-filter="reliability" aria-pressed="false">Reliability</button>
+        <button class="filter-button" type="button" data-filter="platform" aria-pressed="false">Platform</button>
+        <button class="filter-button" type="button" data-filter="delivery" aria-pressed="false">Delivery</button>
+      </div>
+      <div class="projects">
+        <article class="project reveal" data-category="platform">
+          <div class="project-top"><span class="project-kicker">Case 01 / Cloud &amp; HPC</span><span class="project-symbol" aria-hidden="true">↗</span></div>
+          <h3>Burst compute,<br>on demand.</h3>
+          <p>Designed AWS and Azure reference architectures for compute-intensive workloads, with Kubernetes, Terraform, and custom Python schedulers for automated provisioning and dynamic burst scaling.</p>
+          <div class="project-impact"><strong>AWS + Azure</strong><span>hybrid-ready HPC architecture</span></div>
+          <div class="tags"><span class="tag">HPC</span><span class="tag">Kubernetes</span><span class="tag">Python</span><span class="tag">Terraform</span></div>
+        </article>
+        <article class="project reveal" data-category="platform delivery">
+          <div class="project-top"><span class="project-kicker">Case 02 / GitOps platform</span><span class="project-symbol" aria-hidden="true">⌘</span></div>
+          <h3>One declarative<br>delivery path.</h3>
+          <p>Built an Argo CD and Helm application-delivery platform that standardizes Kubernetes deployment baselines and removes manual configuration drift.</p>
+          <div class="project-impact"><strong>GitOps</strong><span>repeatable cluster delivery</span></div>
+          <div class="tags"><span class="tag">Argo CD</span><span class="tag">Helm</span><span class="tag">Kubernetes</span><span class="tag">Terraform</span></div>
+        </article>
+        <article class="project reveal" data-category="reliability">
+          <div class="project-top"><span class="project-kicker">Case 03 / Resiliency</span><span class="project-symbol" aria-hidden="true">⤴</span></div>
+          <h3>Recovery designed<br>before the incident.</h3>
+          <p>Engineered multi-region and pilot-light recovery for financial platforms, with automated failover, health validation, and chaos tests across distributed messaging systems.</p>
+          <div class="project-impact"><strong>RTO / RPO</strong><span>recovery objectives by design</span></div>
+          <div class="tags"><span class="tag">AWS + Azure</span><span class="tag">Kafka</span><span class="tag">IBM MQ</span><span class="tag">Chaos testing</span></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section experience-section" id="experience" aria-labelledby="experience-heading">
+      <div class="section-heading reveal">
+        <div><p class="eyebrow">02 / Professional experience</p><h2 class="section-title" id="experience-heading">The work<br>behind the systems.</h2></div>
+        <p class="section-intro">Infrastructure leadership, resiliency engineering, and hands-on delivery across financial services, manufacturing, and enterprise data centers.</p>
+      </div>
+      <div class="experience-list">
+        <article class="experience-item reveal">
+          <div><p class="experience-date">July 2026 — Present</p><p class="experience-place">Northern Trust<br>Pune, India</p></div>
+          <div class="experience-detail"><h3>Lead Infrastructure / SRE</h3><ul>
+            <li>Architect AWS and Azure hybrid infrastructure for mission-critical services and high-throughput transaction pipelines.</li>
+            <li>Build dynamic provisioning and compute orchestration with Python, Go, and Terraform.</li>
+            <li>Lead multi-region failover, disaster recovery, and chaos testing; strengthen workload identity and least-privilege boundaries.</li>
+            <li>Drive Prometheus and Grafana observability standards against a 99.99% availability target.</li>
+          </ul></div>
+        </article>
+        <article class="experience-item reveal">
+          <div><p class="experience-date">June 2025 — July 2026</p><p class="experience-place">Ernst &amp; Young LLP<br>Client: Northern Trust · Pune</p></div>
+          <div class="experience-detail"><h3>Senior IT Resiliency Engineer</h3><ul>
+            <li>Designed fault-tolerant, multi-region AWS and Azure architectures for core banking platforms.</li>
+            <li>Automated health validation and failure-injection testing for Kafka, IBM MQ, and Solace PubSub+.</li>
+            <li>Built Python and IaC workflows for configuration-drift detection and security-compliance remediation.</li>
+          </ul></div>
+        </article>
+        <article class="experience-item reveal">
+          <div><p class="experience-date">August 2019 — December 2024</p><p class="experience-place">Thermax Global<br>Pune, India</p></div>
+          <div class="experience-detail"><h3>DevOps Engineer / SRE</h3><ul>
+            <li>Built AWS and Azure infrastructure with modular Terraform and Ansible, plus GitOps delivery workflows.</li>
+            <li>Operated EKS, AKS, and on-premises Kubernetes with autoscaling, Helm, and service mesh.</li>
+            <li>Migrated 15+ legacy applications from data centers with zero unplanned downtime.</li>
+            <li>Reduced operational toil by 40% through Python automation and standardized GitLab CI and GitHub Actions pipelines.</li>
+          </ul></div>
+        </article>
+        <article class="experience-item reveal">
+          <div><p class="experience-date">August 2018 — July 2019</p><p class="experience-place">Thermax Global<br>Pune, India</p></div>
+          <div class="experience-detail"><h3>IT Infrastructure Trainee</h3><ul>
+            <li>Supported enterprise data-center servers, network switching, VPNs, firewalls, Active Directory, and SCCM.</li>
+          </ul></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section systems-section" id="systems" aria-labelledby="systems-heading">
+      <div class="systems-grid">
+        <div class="systems-copy reveal">
+          <p class="eyebrow">03 / Working toolkit</p>
+          <h2 class="section-title" id="systems-heading">Built to hold<br>up under load.</h2>
+          <p>Good infrastructure is a product. I focus on the interfaces between teams, software, and the systems they depend on.</p>
+          <div class="systems-list"><span>Multi-cloud &amp; hybrid architecture</span><span>HPC workload orchestration</span><span>Infrastructure as code</span><span>Site reliability engineering</span><span>Zero Trust &amp; cloud governance</span><span>Disaster recovery &amp; chaos</span></div>
+        </div>
+        <div class="architecture reveal" role="img" aria-label="Platform architecture showing a delivery path through a platform control plane to workloads, telemetry, and response">
+          <div class="arch-node"><strong>Delivery</strong><span>CI · POLICY · GITOPS</span></div>
+          <div class="arch-node core"><strong>Platform</strong><span>SELF-SERVICE · GUARDED</span></div>
+          <div class="arch-node"><strong>Workloads</strong><span>RESILIENT · SCALABLE</span></div>
+          <div class="arch-node"><strong>Telemetry</strong><span>METRICS · TRACES · LOGS</span></div>
+          <div class="arch-node core"><strong>Response</strong><span>DETECT · LEARN · IMPROVE</span></div>
+          <div class="arch-node"><strong>People</strong><span>OWNERSHIP · RUNBOOKS</span></div>
+        </div>
+      </div>
+      <div class="expertise-grid reveal" aria-label="Technical expertise">
+        <div class="expertise-group"><h3>Cloud &amp; compute</h3><p>AWS · Microsoft Azure · GCP · Hybrid cloud · HPC · SaaS / PaaS</p></div>
+        <div class="expertise-group"><h3>Infrastructure &amp; platforms</h3><p>Terraform · Ansible · CloudFormation · Kubernetes · EKS · AKS · Helm · Argo CD · Docker</p></div>
+        <div class="expertise-group"><h3>Languages &amp; automation</h3><p>Python · Go · Bash · REST APIs · JSON · YAML</p></div>
+        <div class="expertise-group"><h3>Security &amp; governance</h3><p>Zero Trust · IAM · Vault · Azure Key Vault · CSPM · mTLS · WAF · Transit Gateway</p></div>
+        <div class="expertise-group"><h3>Reliability &amp; recovery</h3><p>SLIs / SLOs · Error budgets · Multi-region DR · RTO / RPO · Chaos engineering · Autoscaling</p></div>
+        <div class="expertise-group"><h3>Observability &amp; delivery</h3><p>Prometheus · Grafana · ELK / EFK · Dynatrace · Azure Monitor · GitLab CI · GitHub Actions · Jenkins</p></div>
+        <div class="expertise-group"><h3>Messaging &amp; data</h3><p>Apache Kafka · Solace PubSub+ · IBM MQ · PostgreSQL · MySQL · Redis</p></div>
+      </div>
+    </section>
+
+    <section class="section ai-lab-section" id="ai-labs" aria-labelledby="ai-heading">
+      <div class="section-heading reveal">
+        <div><p class="eyebrow">04 / Independent AI lab</p><h2 class="section-title" id="ai-heading">AI in production.<br>Reliability by design.</h2></div>
+        <p class="section-intro">Concept architectures and a working interaction prototype. These are independent portfolio explorations, not claims of past client delivery.</p>
+      </div>
+      <div class="ai-projects">
+        <article class="ai-project reveal">
+          <div class="ai-project-meta"><span>Concept architecture</span><span>LLMOps</span></div>
+          <h3>Inference control plane</h3>
+          <p>Route requests across models and GPU pools with latency and token budgets, tenant isolation, load shedding, and observable fallback paths.</p>
+          <span class="tag">Model serving · SLOs · FinOps</span>
+        </article>
+        <article class="ai-project reveal">
+          <div class="ai-project-meta"><span>Concept architecture</span><span>RAG</span></div>
+          <h3>Runbooks with receipts</h3>
+          <p>Ground operational answers in access-controlled runbooks, with source citations, version checks, redaction, and a human approval boundary.</p>
+          <span class="tag">Retrieval · Provenance · IAM</span>
+        </article>
+        <article class="ai-project reveal">
+          <div class="ai-project-meta"><span>Interactive prototype</span><span>SRE</span></div>
+          <h3>Incident copilot</h3>
+          <p>A human-in-control triage workflow that structures the first checks, preserves incident context, and never executes a production action.</p>
+          <span class="tag">Incident response · Guardrails</span>
+        </article>
+      </div>
+      <div class="copilot-demo reveal">
+        <div class="copilot-copy">
+          <p class="eyebrow">Scenario simulator / local prototype</p>
+          <h3 class="copilot-heading">Start with the signal.<br>Keep a human in control.</h3>
+          <p>Choose a failure mode to get a concise first-response checklist. It is a safe UX prototype, not an autonomous operator.</p>
+        </div>
+        <form class="copilot-form" id="copilot-form">
+          <label for="copilot-service">Service name</label>
+          <input id="copilot-service" name="service" maxlength="48" placeholder="payments-api" autocomplete="off">
+          <label for="copilot-scenario">Incident signal</label>
+          <select id="copilot-scenario" name="scenario">
+            <option value="latency">Latency or error-rate spike</option>
+            <option value="region">Regional capacity loss</option>
+            <option value="release">Regression after a release</option>
+          </select>
+          <button class="copilot-submit" type="submit">Generate triage brief <span aria-hidden="true">→</span></button>
+        </form>
+        <div class="copilot-output" id="copilot-output" role="status" aria-live="polite">
+          <p class="copilot-output-label">Illustrative first-response checklist</p>
+          <p class="copilot-summary" id="copilot-summary">Your service · Select a signal to begin</p>
+          <ol class="copilot-steps" id="copilot-steps"><li>Confirm customer impact against the service objectives.</li><li>Use the controls to generate a scenario-specific checklist.</li></ol>
+        </div>
+        <p class="copilot-disclosure">Prototype only: responses are local, predefined playbook scaffolds, not generated by an AI model. No incident details are sent to a server; verify all actions against approved runbooks.</p>
+      </div>
+    </section>
+
+    <section class="section terminal-section" id="terminal" aria-labelledby="terminal-heading">
+      <div class="terminal-copy reveal">
+        <p class="eyebrow">05 / A small interactive thing</p>
+        <h2 class="section-title" id="terminal-heading">Talk to the<br>operator.</h2>
+        <p>Try a command. Explore the toolchain, operating principles, or contact link from this interactive shell.</p>
+      </div>
+      <div class="terminal-window reveal">
+        <div class="terminal-bar"><span class="terminal-lights" aria-hidden="true"><i></i><i></i><i></i></span><span>aditya@platform:~</span><span>interactive shell</span></div>
+        <div class="terminal-body">
+          <div class="terminal-output" id="terminal-output" aria-live="polite"><span class="green">Welcome, operator.</span>
+Type <span class="orange">help</span> to see available commands.</div>
+          <form class="terminal-prompt" id="terminal-form"><label for="terminal-input">aditya@platform:~$</label><input id="terminal-input" name="command" autocomplete="off" spellcheck="false" aria-label="Enter a terminal command"></form>
+          <div class="terminal-hint">Commands: help · stack · principles · contact · clear</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="reveal"><p class="eyebrow">06 / Contact</p><h2 class="section-title" id="contact-heading">Let’s make the<br>next incident smaller.</h2></div>
+      <div class="reveal"><a class="button-primary" href="mailto:aeykhanpasole@gmail.com">Email Aditya <span aria-hidden="true">↗</span></a></div>
+    </section>
+  </main>
+
+  <footer class="footer"><span>© <span id="year"></span> Aditya Khanpasole</span><a href="#home">Back to top ↑</a><span>Cloud infrastructure · Platform · SRE</span></footer>
+
+  <script>
+    const timeElement = document.querySelector("#local-time");
+    const updateTime = () => {
+      const time = new Intl.DateTimeFormat("en-GB", { timeZone: "UTC", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false }).format(new Date());
+      timeElement.innerHTML = `${time} <small>UTC</small>`;
+    };
+    updateTime();
+    window.setInterval(updateTime, 1000);
+    document.querySelector("#year").textContent = new Date().getFullYear();
+
+    const menuButton = document.querySelector(".menu-toggle");
+    const navigation = document.querySelector("#site-navigation");
+    menuButton.addEventListener("click", () => {
+      const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+      menuButton.setAttribute("aria-expanded", String(!isOpen));
+      menuButton.textContent = isOpen ? "Menu +" : "Close −";
+      navigation.classList.toggle("is-open", !isOpen);
+    });
+    navigation.addEventListener("click", (event) => {
+      if (event.target.closest("a")) {
+        menuButton.setAttribute("aria-expanded", "false");
+        menuButton.textContent = "Menu +";
+        navigation.classList.remove("is-open");
+      }
+    });
+
+    document.querySelectorAll(".filter-button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
+        document.querySelectorAll(".filter-button").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
+        document.querySelectorAll(".project").forEach((project) => {
+          project.hidden = filter !== "all" && !project.dataset.category.split(" ").includes(filter);
+        });
+      });
+    });
+
+    const copilotPlans = {
+      latency: {
+        title: "Check latency and error-rate impact",
+        steps: [
+          "Confirm affected customer journeys, regions, and SLO burn rate.",
+          "Compare p95 / p99 latency and errors by dependency, version, and zone.",
+          "Check saturation, queue depth, connection pools, and recent traffic shifts.",
+          "Page the owning team and follow the approved mitigation runbook."
+        ]
+      },
+      region: {
+        title: "Assess regional capacity and failover readiness",
+        steps: [
+          "Confirm impact scope and current traffic distribution with incident command.",
+          "Verify healthy-region capacity, replication lag, and dependency health.",
+          "Check recovery objectives and use the approved regional failover runbook.",
+          "Keep a human incident lead on the decision; record validation and rollback criteria."
+        ]
+      },
+      release: {
+        title: "Correlate the regression with the release",
+        steps: [
+          "Compare the first bad signal with deployment and configuration-change times.",
+          "Inspect canary health, error-budget burn, and affected service versions.",
+          "Pause further promotion while the owning engineer reviews the change.",
+          "Use the approved rollback procedure if its documented trigger is met."
+        ]
+      }
+    };
+    document.querySelector("#copilot-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const service = document.querySelector("#copilot-service").value.trim().slice(0, 48) || "Your service";
+      const plan = copilotPlans[document.querySelector("#copilot-scenario").value];
+      document.querySelector("#copilot-summary").textContent = `${service} · ${plan.title}`;
+      document.querySelector("#copilot-steps").replaceChildren(...plan.steps.map((step) => {
+        const item = document.createElement("li");
+        item.textContent = step;
+        return item;
+      }));
+    });
+
+    const terminalOutput = document.querySelector("#terminal-output");
+    const terminalInput = document.querySelector("#terminal-input");
+    const responses = {
+      help: '<span class="green">Available commands</span>\n  stack       show the tools on the workbench\n  principles  show the operating principles\n  contact     open a new email\n  clear       clear this terminal',
+      stack: '<span class="green">Aditya’s engineering toolkit</span>\n  Cloud       AWS · Azure · GCP · Hybrid\n  Compute     HPC · Kubernetes · EKS · AKS\n  IaC         Terraform · Ansible · CloudFormation\n  Automation  Python · Go · Bash\n  Signals     Prometheus · Grafana · Dynatrace\n  Delivery    Argo CD · GitLab CI · GitHub Actions\n  Messaging   Kafka · Solace PubSub+ · IBM MQ',
+      principles: '<span class="green">Operating principles</span>\n  01  Measure user impact, not dashboard count.\n  02  Make the safe path the easy path.\n  03  Blameless is a practice, not a slogan.\n  04  Automate toil; keep the learning.',
+      contact: '<span class="green">Opening the mail client…</span>'
+    };
+    const escapeHtml = (value) => value.replace(/[&<>"']/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" })[character]);
+    document.querySelector("#terminal-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const command = terminalInput.value.trim().toLowerCase();
+      if (!command) return;
+      if (command === "clear") terminalOutput.innerHTML = "";
+      else if (command === "contact") {
+        terminalOutput.innerHTML = responses.contact;
+        window.location.href = "mailto:hello@example.com";
+      } else terminalOutput.innerHTML = responses[command] || `<span class="orange">Command not found:</span> ${escapeHtml(command)}\nType <span class="green">help</span> to list commands.`;
+      terminalInput.value = "";
+    });
+
+    if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll(".reveal").forEach((element) => revealObserver.observe(element));
+    } else {
+      document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
+    }
+  </script>
+</body>
 </html>
